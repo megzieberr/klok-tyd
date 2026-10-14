@@ -171,7 +171,7 @@ function digitSVG(ch,x){
 function digitalSVG(h24,m,fmt){
   const hs=fmt==='24'?pad(h24):String(h12(h24)).padStart(2,' ');
   const ms=pad(m);
-  return `<svg viewBox="0 0 222 92" role="img" aria-label="Digitale horlosie">`+
+  return `<svg viewBox="0 0 222 92" role="img" aria-label="Digitale klok">`+
     digitSVG(hs[0],16)+digitSVG(hs[1],60)+
     `<circle cx="108" cy="36" r="4.2" class="on"/><circle cx="105" cy="62" r="4.2" class="on"/>`+
     digitSVG(ms[0],124)+digitSVG(ms[1],168)+`</svg>`;
@@ -182,8 +182,8 @@ function digitalBox(h24,m,fmt,small){return `<div class="lcd${small?' small':''}
 const MODES={
   1:{title:'Wysers → sê dit',blurb:'Lees die analoog klok en sê die tyd hardop.',from:'a',to:'🗣️'},
   2:{title:'Wysers → tik digitaal',blurb:'Lees die analoog klok en tik die tyd digitaal.',from:'a',to:'⌨️'},
-  3:{title:'Digitaal → sê dit',blurb:'Lees die digitale horlosie en sê die tyd hardop.',from:'d',to:'🗣️'},
-  4:{title:'Digitaal → trek wysers',blurb:'Lees die digitale horlosie en trek die wysers.',from:'d',to:'👆'}
+  3:{title:'Digitaal → sê dit',blurb:'Lees die digitale klok en sê die tyd hardop.',from:'d',to:'🗣️'},
+  4:{title:'Digitaal → trek wysers',blurb:'Lees die digitale klok en trek die wysers.',from:'d',to:'👆'}
 };
 const S={mode:null,level:'maklik',fmt:'12',h:0,m:0,phase:'ask',right:0,total:0,count:0,dh:0,dm:0,drag:null};
 try{const saved=JSON.parse(localStorage.getItem('kloktyd')||'{}');
@@ -253,7 +253,7 @@ function nextQuestion(){
       <div class="stage">${analogSVG(S.h,S.m)}${badgeHTML()}${LEGEND}</div>
       <div class="actions"><button class="btn" data-act="show">Wys antwoord</button></div>`;
   }else if(S.mode===2){
-    html=`<p class="prompt">Kyk na die wysers. Tik die tyd soos 'n digitale horlosie dit wys.</p>
+    html=`<p class="prompt">Kyk na die wysers. Tik die tyd soos 'n digitale klok dit wys.</p>
       <div class="stage">${analogSVG(S.h,S.m)}${badgeHTML()}${LEGEND}</div>
       <form class="actions" id="tform" autocomplete="off">
         <input class="time-in" id="tin" inputmode="decimal" placeholder="${S.fmt==='24'?'15:20':'3:20'}" aria-label="Digitale tyd" maxlength="5">
@@ -261,7 +261,7 @@ function nextQuestion(){
         <p class="hint" id="hint"></p>
       </form>`;
   }else if(S.mode===3){
-    html=`<p class="prompt">Lees die digitale horlosie. Sê die tyd hardop in woorde.</p>
+    html=`<p class="prompt">Lees die digitale klok. Sê die tyd hardop in woorde.</p>
       <div class="stage">${digitalBox(S.h,S.m,S.fmt)}</div>
       <div class="actions"><button class="btn" data-act="show">Wys antwoord</button></div>`;
   }else{
