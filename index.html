@@ -104,15 +104,13 @@ button{font:inherit;color:inherit;cursor:pointer}
 // ---------- time words (Afrikaans, her class's way) ----------
 const NUM=['nul','een','twee','drie','vier','vyf','ses','sewe','agt','nege','tien','elf','twaalf',
   'dertien','veertien','vyftien','sestien','sewentien','agttien','negentien','twintig'];
-const UUR={1:'eenuur',2:'twee-uur',3:'drie-uur',4:'vieruur',5:'vyfuur',6:'sesuur',7:'sewe-uur',
-  8:'agtuur',9:'nege-uur',10:'tienuur',11:'elfuur',12:'twaalfuur'};
 function num(n){return n<=20?NUM[n]:NUM[n-20]+'-en-twintig';}
 function h12(h){const x=h%12;return x===0?12:x;}
 function minPart(k){return k%5===0?num(k):num(k)+(k===1?' minuut':' minute');}
 function timeWords(h24,m,fmt){
   const h=h12(h24), nxt=h12(h24+1);
   let s;
-  if(m===0) s=UUR[h];
+  if(m===0) s=NUM[h]+' uur';
   else if(m===15) s='kwart oor '+NUM[h];
   else if(m===30) s='half '+NUM[nxt];
   else if(m===45) s='kwart voor '+NUM[nxt];
