@@ -6,7 +6,7 @@ Vier maniere om te oefen:
 1. Wysers → sê dit (hardop, dan wys die antwoord)
 2. Wysers → tik digitaal
 3. Digitaal → sê dit
-4. Digitaal → sleep die wysers
+4. Digitaal → trek die wysers
 
 Skakelaars: Maklik (elke 5 min) / Moeilik (elke minuut), en 12-uur / 24-uur (vm / nm).
 

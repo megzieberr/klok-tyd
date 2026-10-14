@@ -185,7 +185,7 @@ const MODES={
   1:{title:'Wysers → sê dit',blurb:'Lees die wyserhorlosie en sê die tyd hardop.',from:'a',to:'🗣️'},
   2:{title:'Wysers → tik digitaal',blurb:'Lees die wyserhorlosie en tik die tyd digitaal.',from:'a',to:'⌨️'},
   3:{title:'Digitaal → sê dit',blurb:'Lees die digitale horlosie en sê die tyd hardop.',from:'d',to:'🗣️'},
-  4:{title:'Digitaal → sleep wysers',blurb:'Lees die digitale horlosie en sleep die wysers.',from:'d',to:'👆'}
+  4:{title:'Digitaal → trek wysers',blurb:'Lees die digitale horlosie en trek die wysers.',from:'d',to:'👆'}
 };
 const S={mode:null,level:'maklik',fmt:'12',h:0,m:0,phase:'ask',right:0,total:0,count:0,dh:0,dm:0,drag:null};
 try{const saved=JSON.parse(localStorage.getItem('kloktyd')||'{}');
@@ -268,8 +268,8 @@ function nextQuestion(){
       <div class="actions"><button class="btn" data-act="show">Wys antwoord</button></div>`;
   }else{
     S.dh=0;S.dm=0;
-    html=`<p class="prompt">Sleep die wysers sodat die horlosie dieselfde tyd wys.</p>
-      <div class="stage">${digitalBox(S.h,S.m,S.fmt)}${analogSVG(0,0,{drag:true,label:'Sleep die wysers'})}${LEGEND}</div>
+    html=`<p class="prompt">Trek die wysers sodat die horlosie dieselfde tyd wys.</p>
+      <div class="stage">${digitalBox(S.h,S.m,S.fmt)}${analogSVG(0,0,{drag:true,label:'Trek die wysers'})}${LEGEND}</div>
       <div class="actions"><button class="btn" data-act="check4">Kyk</button></div>`;
   }
   q.innerHTML=html+`<div id="reveal"></div>`;
