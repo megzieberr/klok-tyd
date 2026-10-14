@@ -138,7 +138,7 @@ const FACE=(()=>{
   return s;
 })();
 function handAngles(h,m){return {hr:((h%12)+m/60)*30, mn:m*6};}
-function analogSVG(h,m,{cls='clock-big',drag=false,label='Wyserhorlosie'}={}){
+function analogSVG(h,m,{cls='clock-big',drag=false,label='Analoog klok'}={}){
   const {hr,mn}=handAngles(h,m);
   return `<svg class="${cls}${drag?' drag':''}" viewBox="0 0 200 200" role="img" aria-label="${label}">${FACE}
     <g class="hand-h" transform="rotate(${hr} 100 100)"><line x1="100" y1="113" x2="100" y2="53" stroke="#2F6DB5" stroke-width="8" stroke-linecap="round"/>${drag?'<circle cx="100" cy="55" r="8" fill="#2F6DB5" stroke="#fff" stroke-width="2.5"/>':''}</g>
@@ -180,8 +180,8 @@ function digitalBox(h24,m,fmt,small){return `<div class="lcd${small?' small':''}
 
 // ---------- state ----------
 const MODES={
-  1:{title:'Wysers → sê dit',blurb:'Lees die wyserhorlosie en sê die tyd hardop.',from:'a',to:'🗣️'},
-  2:{title:'Wysers → tik digitaal',blurb:'Lees die wyserhorlosie en tik die tyd digitaal.',from:'a',to:'⌨️'},
+  1:{title:'Wysers → sê dit',blurb:'Lees die analoog klok en sê die tyd hardop.',from:'a',to:'🗣️'},
+  2:{title:'Wysers → tik digitaal',blurb:'Lees die analoog klok en tik die tyd digitaal.',from:'a',to:'⌨️'},
   3:{title:'Digitaal → sê dit',blurb:'Lees die digitale horlosie en sê die tyd hardop.',from:'d',to:'🗣️'},
   4:{title:'Digitaal → trek wysers',blurb:'Lees die digitale horlosie en trek die wysers.',from:'d',to:'👆'}
 };
