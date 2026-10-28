@@ -12,6 +12,7 @@ Four modes, endless "Volgende", Maklik/Moeilik and 12-uur/24-uur (vm/nm) switche
 - 2026-10-14: on the hour = two words: "drie uur", "een uur".
 - 2026-10-14: 24-uur mode uses vm (oggend) and nm (middag / aand).
 - 2026-10-14: "trek" the hands, never "sleep".
+- 2026-10-28: fifth card "Gemeng" mixes modes 1, 2 and 3 at random, one per question. Never mode 4 (trek wysers). Tally: "Tyd nr. N · Reg: x / y" (the score counts only the typed questions).
 - 2026-10-14: "analoog klok" and "digitale klok", never "wyserhorlosie" / "digitale horlosie". Plain "horlosie" in "Jou horlosie" stays.
 
 ## Pending on Megan

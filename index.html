@@ -183,9 +183,11 @@ const MODES={
   1:{title:'Wysers → sê dit',blurb:'Lees die analoog klok en sê die tyd hardop.',from:'a',to:'🗣️'},
   2:{title:'Wysers → tik digitaal',blurb:'Lees die analoog klok en tik die tyd digitaal.',from:'a',to:'⌨️'},
   3:{title:'Digitaal → sê dit',blurb:'Lees die digitale klok en sê die tyd hardop.',from:'d',to:'🗣️'},
-  4:{title:'Digitaal → trek wysers',blurb:'Lees die digitale klok en trek die wysers.',from:'d',to:'👆'}
+  4:{title:'Digitaal → trek wysers',blurb:'Lees die digitale klok en trek die wysers.',from:'d',to:'👆'},
+  5:{title:'Gemeng',blurb:'Die eerste drie soorte deurmekaar: sê dit of tik dit.',from:'mix',to:'🔀'}
 };
-const S={mode:null,level:'maklik',fmt:'12',h:0,m:0,phase:'ask',right:0,total:0,count:0,dh:0,dm:0,drag:null};
+// S.q = the question type on screen (1-4); in mode 5 it changes every question
+const S={mode:null,q:null,level:'maklik',fmt:'12',h:0,m:0,phase:'ask',right:0,total:0,count:0,dh:0,dm:0,drag:null};
 try{const saved=JSON.parse(localStorage.getItem('kloktyd')||'{}');
   if(saved.level==='maklik'||saved.level==='moeilik') S.level=saved.level;
   if(saved.fmt==='12'||saved.fmt==='24') S.fmt=saved.fmt;}catch(e){}
@@ -212,9 +214,9 @@ function renderHome(){
   app.innerHTML=`<div class="hero">${analogSVG(10,10,{cls:'',label:'Horlosie'})}<div><h1>Hoe laat is dit?</h1></div></div>
     <p class="sub">Kies hoe jy wil oefen. Jy kan aanhou so lank as wat jy wil.</p>
     ${settingsHTML()}
-    <div class="cards">${[1,2,3,4].map(k=>{const md=MODES[k];return `
+    <div class="cards">${[1,2,3,4,5].map(k=>{const md=MODES[k];return `
       <button class="card" data-act="mode" data-v="${k}">
-        <span class="icons">${md.from==='a'?MINI_A:MINI_D}<span class="arrow">→</span><span>${md.to}</span></span>
+        <span class="icons">${md.from==='mix'?MINI_A+MINI_D:md.from==='a'?MINI_A:MINI_D}<span class="arrow">→</span><span>${md.to}</span></span>
         <span><h2>${md.title}</h2><p>${md.blurb}</p></span>
       </button>`;}).join('')}</div>`;
 }
@@ -236,7 +238,8 @@ function newTime(){
 }
 function updateTally(){
   const t=document.getElementById('tally'); if(!t) return;
-  t.textContent=(S.mode===1||S.mode===3)?`Tyd nr. ${S.count}`:`Reg: ${S.right} / ${S.total}`;
+  if(S.mode===5) t.textContent=`Tyd nr. ${S.count}`+(S.total?` · Reg: ${S.right} / ${S.total}`:'');
+  else t.textContent=(S.mode===1||S.mode===3)?`Tyd nr. ${S.count}`:`Reg: ${S.right} / ${S.total}`;
 }
 const LEGEND=`<div class="legend"><span><i style="background:#2F6DB5"></i>kort wyser: ure</span><span><i style="background:#E0533D"></i>lang wyser: minute</span></div>`;
 function badgeHTML(){
@@ -246,13 +249,14 @@ function badgeHTML(){
 
 function nextQuestion(){
   newTime(); S.phase='ask'; S.count++;
+  S.q=S.mode===5?1+Math.floor(Math.random()*3):S.mode;
   const q=document.getElementById('q');
   let html='';
-  if(S.mode===1){
+  if(S.q===1){
     html=`<p class="prompt">Kyk na die wysers. Sê die tyd hardop in woorde.</p>
       <div class="stage">${analogSVG(S.h,S.m)}${badgeHTML()}${LEGEND}</div>
       <div class="actions"><button class="btn" data-act="show">Wys antwoord</button></div>`;
-  }else if(S.mode===2){
+  }else if(S.q===2){
     html=`<p class="prompt">Kyk na die wysers. Tik die tyd soos 'n digitale klok dit wys.</p>
       <div class="stage">${analogSVG(S.h,S.m)}${badgeHTML()}${LEGEND}</div>
       <form class="actions" id="tform" autocomplete="off">
@@ -260,7 +264,7 @@ function nextQuestion(){
         <button class="btn" type="submit">Kyk</button>
         <p class="hint" id="hint"></p>
       </form>`;
-  }else if(S.mode===3){
+  }else if(S.q===3){
     html=`<p class="prompt">Lees die digitale klok. Sê die tyd hardop in woorde.</p>
       <div class="stage">${digitalBox(S.h,S.m,S.fmt)}</div>
       <div class="actions"><button class="btn" data-act="show">Wys antwoord</button></div>`;
@@ -272,13 +276,13 @@ function nextQuestion(){
   }
   q.innerHTML=html+`<div id="reveal"></div>`;
   updateTally();
-  if(S.mode===2){
+  if(S.q===2){
     const f=document.getElementById('tform');
     f.addEventListener('submit',e=>{e.preventDefault();check2();});
     // only focus on devices with a real keyboard, so phones don't pop the keyboard over the clock
     if(window.matchMedia('(pointer:fine)').matches) document.getElementById('tin').focus();
   }
-  if(S.mode===4) wireDrag(q.querySelector('svg.drag'));
+  if(S.q===4) wireDrag(q.querySelector('svg.drag'));
 }
 
 function parseTime(raw){
@@ -317,7 +321,7 @@ function reveal(ok){
   let verdict='';
   if(ok===true) verdict=`<div class="verdict ok">✓ Reg!</div>`;
   if(ok===false) verdict=`<div class="verdict no">Nog nie. Kyk mooi:</div>`;
-  const yours=(S.mode===4&&ok===false)?`<figure>${analogSVG(S.dh,S.dm,{cls:'clock-small',label:'Jou horlosie'})}<figcaption>Jou horlosie</figcaption></figure>`:'';
+  const yours=(S.q===4&&ok===false)?`<figure>${analogSVG(S.dh,S.dm,{cls:'clock-small',label:'Jou horlosie'})}<figcaption>Jou horlosie</figcaption></figure>`:'';
   document.getElementById('reveal').innerHTML=`<div class="reveal">${verdict}
     <p class="words"><span>${cap(timeWords(S.h,S.m,S.fmt))}</span></p>
     <div class="pair">${yours}
@@ -386,8 +390,8 @@ document.addEventListener('keydown',e=>{
   if(tag==='BUTTON'||tag==='INPUT') return; // native handling, no double-submit
   e.preventDefault();
   if(S.phase==='done') nextQuestion();
-  else if(S.mode===1||S.mode===3) reveal(null);
-  else if(S.mode===4) check4();
+  else if(S.q===1||S.q===3) reveal(null);
+  else if(S.q===4) check4();
 });
 renderHome();
 </script>
