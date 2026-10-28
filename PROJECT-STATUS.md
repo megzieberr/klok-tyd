@@ -1,8 +1,8 @@
-# Project status — updated 2026-10-14
+# Project status, updated 2026-10-28
 ## Where we are
 "Hoe laat is dit?" Gr6 Afrikaans time-reading page. One `index.html`, no login, no database.
 LIVE at https://megzieberr.github.io/klok-tyd/ (GitHub Pages from `main`: a push IS the deploy).
-Four modes, endless "Volgende", Maklik/Moeilik and 12-uur/24-uur (vm/nm) switches. All tested.
+Four modes plus "Gemeng" (mixes modes 1-3, live 28 Oct, she says it's perfect), endless "Volgende", Maklik/Moeilik and 12-uur/24-uur (vm/nm) switches. All tested.
 
 ## Decisions
 - 2026-10-14: each mode shows ONLY the clock the learner must read; the reveal shows both.
